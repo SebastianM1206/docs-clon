@@ -8,21 +8,55 @@ import StarterKit from '@tiptap/starter-kit'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
+import FontFamily from '@tiptap/extension-font-family'
 import TableRow from '@tiptap/extension-table-row'
+import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import ImageResize from 'tiptap-extension-resize-image'
 
 
 
+import { useEditorStore } from '@/store/use-editor-store'
+import TextStyle from '@tiptap/extension-text-style'
+import { Color } from "@tiptap/extension-color";
+import Highlight from "@tiptap/extension-highlight";
+
+import Link from "@tiptap/extension-link";
+
+import TextAlign from "@tiptap/extension-text-align";
+
+
 export const Editor = () => {
+  const { setEditor } = useEditorStore();
 
     const editor = useEditor({
+        onCreate({editor}) {
+            setEditor(editor); // This function will be called when the editor is created. It will set the editor instance in the Zustand store. 
+        },
+        onUpdate({ editor }) {
+            setEditor(editor); 
+        },
+        onDestroy() {
+            setEditor(null); 
+        },
+        onTransaction({ editor }) {
+            setEditor(editor); 
+        },
+        onFocus({ editor }) {
+            setEditor(editor); 
+        },
+        onBlur({ editor }) {
+            setEditor(editor); 
+        },
+        onContentError({ editor }) {
+            setEditor(editor); 
+        },
         editorProps: {
             attributes: { 
                 style: 'padding-left: 56px; padding-right: 56px; ',
                 class: ' focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text dark:prose-invert max-w-none' }, // This is the class that will be applied to the editor content area.
         },
-        extensions: [StarterKit,TaskList,
+        extensions: [StarterKit,Underline,FontFamily, TextStyle, TaskList,
             TaskItem.configure({
               nested: true,
             }),
@@ -31,8 +65,20 @@ export const Editor = () => {
               }),
               TableRow,
               TableHeader,
+                    Color,
+              Highlight.configure({
+                multicolor: true,
+              }),
+                    Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+      }),
               TableCell, 
-            Image, ImageResize    ],
+                    TextAlign.configure({
+        types: ["heading", "paragraph"]
+      }),
+            Image, ImageResize,   ],
         content: `
         <table>
           <tbody>

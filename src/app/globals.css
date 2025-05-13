@@ -93,6 +93,8 @@ body {
 .tiptap {
 
 
+
+
   /* List styles */
   ul, 
   ol {
@@ -242,6 +244,18 @@ body {
     cursor: ew-resize;
     cursor: col-resize;
   }
+
+
+      /* Link styles */
+  a {
+    @apply text-blue-600;
+    cursor: pointer;
+
+    &:hover {
+      @apply underline underline-offset-4;
+    }
+  }
+
 
 
   /* image specific styles */
